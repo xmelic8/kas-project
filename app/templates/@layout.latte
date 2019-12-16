@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+{*--- header ---*}
+{import _include/_header.latte}
+{include header}
+{*--- End header ---*}
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<title>{ifset title}{include title|stripHtml} | {/ifset}KAS project</title>
+</head>
+
+<body>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+	{include content}
+
+	{*--- Scripts ---*}
+	{import _include/_scripts.latte}
+	{include scripts}
+	{*--- End scripts ---*}
+</body>
+</html>
