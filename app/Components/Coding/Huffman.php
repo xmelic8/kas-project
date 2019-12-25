@@ -46,7 +46,6 @@ class Huffman
     {
         $this->originalString = $string;
         $this->analysisData = ArrayHash::from(array());
-        Debugger::$maxDepth = 20; // default: 3
     }
 
     /**
@@ -81,7 +80,7 @@ class Huffman
         $this->modifyArraySequence();
         $this->generateTranslationTable();
         $this->buildFinalMessage();
-Debugger::barDump($this->finalMessage);
+
         $this->countAnalysisDataFromEncode();
     }
 
@@ -173,10 +172,14 @@ Debugger::barDump($this->finalMessage);
             $value = $value.'1';
         }
 
-        if(is_array($data[$element][self::RIGHT_ELEMENT])){
+        if(!isset($data[$element])){
+            $this->translationTable[$data[0][self::RIGHT_ELEMENT]] = $value;
+        }
+        elseif(is_array($data[$element][self::RIGHT_ELEMENT])){
             $this->recursiveGenerateTranslationTable($data[$element][self::RIGHT_ELEMENT], $value);
         }
         else{
+            Debugger::barDump($data);
             $this->translationTable[$data[$element][self::RIGHT_ELEMENT]] = $value;
         }
     }

@@ -24,10 +24,11 @@ final class InputTextForm extends FormFactory
     public function formSubmitted(Form $form, \stdClass $values){
         Debugger::barDump($values);
 
-        $original = "This is the text that you want to compress.";
+        if($values->text == ""){
+            return;
+        }
 
-        //TODO EMPTY STRING
-        $huffmanModel = new Huffman($original);
+        $huffmanModel = new Huffman($values->text);
         $huffmanModel->encode();
         $final = $huffmanModel->getFinalMessage();
 
