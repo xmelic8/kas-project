@@ -1,0 +1,12 @@
+html, body, body>.container {
+    height: 100%;
+}
+
+.title {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.no-show {
+    display: none;
+}

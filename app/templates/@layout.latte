@@ -15,7 +15,9 @@
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-	{include content}
+	<div class="container">
+		{include content}
+	</div>
 
 	{*--- Scripts ---*}
 	{import _include/_scripts.latte}
