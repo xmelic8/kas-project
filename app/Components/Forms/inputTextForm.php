@@ -3,6 +3,7 @@
 namespace App\Components\Forms;
 
 use App\Components\Coding\Huffman;
+use App\Components\Coding\LZW;
 use App\Components\Coding\RunLength;
 use Nette\Application\UI\Form;
 use SplPriorityQueue;
@@ -57,6 +58,17 @@ final class InputTextForm extends FormFactory
         $runLength->getFinalMessage();
 
         $this->finalAnalysisRunLength = $runLength->getAnalysisData();
+
+        //LZW kodovani
+        $str = 'TOBEORNOTTOBEORTOBEORNOT';
+        $lzw = new LZW($str);
+        $lzw->encode();
+        $final = $lzw->getFinalMessage();
+        //$dec = $lzw->decompress($result);
+
+        //Debugger::barDump($result);
+        Debugger::barDump($final);
+        Debugger::barDump($lzw->getAnalysisData());
     }
 
     /**

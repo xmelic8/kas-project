@@ -33,7 +33,7 @@
                 <div class="card-header">Huffmanovo kódování</div>
                 <div class="card-body">
 
-                    {ifset $huffmanData}{dump $huffmanData}
+                    {ifset $huffmanData}
                         <div class="row">
                             <div class="col-md-12">
                                 <h5>Komprimace</h5>
@@ -106,7 +106,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>Velikost původní zprávy</h5>
+                                <h5>Velikost komprimované zprávy</h5>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: {$huffmanData->procent|number}%;" aria-valuenow="{$huffmanData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$huffmanData->procent|number} %</div>
                                 </div>
@@ -122,7 +122,7 @@
                 <div class="card-header">Run Length kódování</div>
                 <div class="card-body">
 
-                    {ifset $runLengthData}{dump $runLengthData}
+                    {ifset $runLengthData}
                         <div class="row">
                             <div class="col-md-12">
                                 <h5>Komprimace</h5>
@@ -167,7 +167,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>Velikost původní zprávy</h5>
+                                <h5>Velikost komprimované zprávy</h5>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: {$runLengthData->procent|number}%;" aria-valuenow="{$runLengthData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$runLengthData->procent|number} %</div>
                                 </div>
