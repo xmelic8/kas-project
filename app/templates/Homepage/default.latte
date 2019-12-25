@@ -42,14 +42,14 @@
                             <div class="col-md-12">
                                 <table class="table table-dark">
                                     <tbody>
-                                        <tr>
-                                            <td>Zpráva</td>
-                                            <td style="word-break: break-all;">{$huffmanData->encode["text"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Velikost</td>
-                                            <td>{$huffmanData->encode["size"]|bytes}</td>
-                                        </tr>
+                                    <tr>
+                                        <td>Zpráva</td>
+                                        <td style="word-break: break-all;">{$huffmanData->encode["text"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velikost</td>
+                                        <td>{$huffmanData->encode["size"]|bytes}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -80,28 +80,28 @@
                             <div class="col-md-12">
                                 <h5>Slovník</h5>
                             </div>
-                        <div class="col-md-6">
-                        <table class="table table-dark table-striped">
-                        <tbody>
-                        {foreach $huffmanData->translationTable as $key => $value}
-                            <tr>
-                                <td>{$key}</td>
-                                <td>{$value}</td>
-                            </tr>
-
-                            {if $iterator->counter == round(count($huffmanData->translationTable)/2)}
-                                </tbody>
-                                </table>
-                                </div>
-
-                                <div class="col-md-6">
+                            <div class="col-md-6">
                                 <table class="table table-dark table-striped">
-                                <tbody>
-                            {/if}
-                        {/foreach}
-                        </tbody>
-                        </table>
-                        </div>
+                                    <tbody>
+                                    {foreach $huffmanData->translationTable as $key => $value}
+                                    <tr>
+                                        <td>{$key}</td>
+                                        <td>{$value}</td>
+                                    </tr>
+
+                                    {if $iterator->counter == round(count($huffmanData->translationTable)/2)}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+                                <table class="table table-dark table-striped">
+                                    <tbody>
+                                    {/if}
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -109,6 +109,67 @@
                                 <h5>Velikost původní zprávy</h5>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: {$huffmanData->procent|number}%;" aria-valuenow="{$huffmanData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$huffmanData->procent|number} %</div>
+                                </div>
+                            </div>
+                        </div>
+                    {/ifset}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card bg-light mb-3">
+                <div class="card-header">Run Length kódování</div>
+                <div class="card-body">
+
+                    {ifset $runLengthData}{dump $runLengthData}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Komprimace</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table class="table table-dark">
+                                    <tbody>
+                                    <tr>
+                                        <td>Zpráva</td>
+                                        <td style="word-break: break-all;">{$runLengthData->encode["text"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velikost</td>
+                                        <td>{$runLengthData->encode["size"]|bytes}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Dekomprimace</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table class="table table-dark">
+                                    <tbody>
+                                    <tr>
+                                        <td>Zpráva</td>
+                                        <td style="word-break: break-all;">{$runLengthData->decode["text"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velikost</td>
+                                        <td>{$runLengthData->decode["size"]|bytes}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Velikost původní zprávy</h5>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {$runLengthData->procent|number}%;" aria-valuenow="{$runLengthData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$runLengthData->procent|number} %</div>
                                 </div>
                             </div>
                         </div>

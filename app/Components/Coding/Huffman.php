@@ -7,7 +7,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-class Huffman
+final class Huffman
 {
     const FIRST_ELEMENT = 0;
     const LEFT_ELEMENT = "count";
@@ -179,7 +179,6 @@ class Huffman
             $this->recursiveGenerateTranslationTable($data[$element][self::RIGHT_ELEMENT], $value);
         }
         else{
-            Debugger::barDump($data);
             $this->translationTable[$data[$element][self::RIGHT_ELEMENT]] = $value;
         }
     }
@@ -222,10 +221,10 @@ class Huffman
      * Funkce pro vytvoreni statistiky pro kodovaci funkci
      */
     private function countAnalysisDataFromDecode() :void{
-        $characters = str_split($this->finalMessage);
+        $charsArray = str_split($this->finalMessage);
 
         $binary = "";
-        foreach ($characters as $character) {
+        foreach ($charsArray as $character) {
             $data = unpack('H*', $character);
             $binary = $binary . base_convert($data[1], 16, 2);
         }
@@ -235,7 +234,7 @@ class Huffman
             "size" => strlen($binary)
         ];
         $this->analysisData->translationTable = $this->translationTable;
-        $this->analysisData->procent = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100;
+        $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
     }
 
     /**

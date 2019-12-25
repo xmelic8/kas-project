@@ -3,15 +3,24 @@
 namespace App\Components\Forms;
 
 use App\Components\Coding\Huffman;
+use App\Components\Coding\RunLength;
 use Nette\Application\UI\Form;
 use SplPriorityQueue;
 use Tracy\Debugger;
 
 final class InputTextForm extends FormFactory
 {
-    public $finalAnalysis;
+    /**
+     * @var
+     */
+    private $finalAnalysisHuffman;
 
-    public function create():Form
+    /**
+     * @var
+     */
+    private $finalAnalysisRunLength;
+
+    public function create(): Form
     {
         parent::create();
 
@@ -21,28 +30,48 @@ final class InputTextForm extends FormFactory
         return $this->form;
     }
 
-    public function formSubmitted(Form $form, \stdClass $values){
+    public function formSubmitted(Form $form, \stdClass $values)
+    {
         Debugger::barDump($values);
 
-        if($values->text == ""){
+        if ($values->text == "") {
             return;
         }
 
+        //Huffmanovo kodovani
         $huffmanModel = new Huffman($values->text);
         $huffmanModel->encode();
         $final = $huffmanModel->getFinalMessage();
 
         $huffmanModel->decode($final);
-        $final = $huffmanModel->getFinalMessage();
+        $huffmanModel->getFinalMessage();
 
-        $this->finalAnalysis = $huffmanModel->getAnalysisData();
+        $this->finalAnalysisHuffman = $huffmanModel->getAnalysisData();
+
+        //Run Length kodovani
+        $runLength = new RunLength($values->text);
+        $runLength->encode();
+        $final = $runLength->getFinalMessage();
+
+        $runLength->decode($final);
+        $runLength->getFinalMessage();
+
+        $this->finalAnalysisRunLength = $runLength->getAnalysisData();
     }
 
     /**
      * @return mixed
      */
-    public function getFinalAnalysis()
+    public function getFinalAnalysisHuffman()
     {
-        return $this->finalAnalysis;
+        return $this->finalAnalysisHuffman;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFinalAnalysisRunLength()
+    {
+        return $this->finalAnalysisRunLength;
     }
 }

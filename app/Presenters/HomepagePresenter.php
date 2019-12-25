@@ -28,7 +28,8 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     public function renderDefault(){
         if($this->isAjax()){
             $this->template->showBody = true;
-            $this->template->huffmanData = $this->inputTextForm->getFinalAnalysis();
+            $this->template->huffmanData = $this->inputTextForm->getFinalAnalysisHuffman();
+            $this->template->runLengthData = $this->inputTextForm->getFinalAnalysisRunLength();
 
             $this->redrawControl();
         }else{
