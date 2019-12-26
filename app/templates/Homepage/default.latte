@@ -3,6 +3,13 @@
         <div class="col-md-12 title">
             <h2>Komprimace dat a kryptologie </h2>
             <h3>Implementace kompresních algoritmů</h3>
+            <div>
+                Aplikace implementuje algoritmy Run Length, Huffmanovo kódování a Lempel-Ziv-Welch. Zadaný vstupní text
+                se zakóduje a následně dekóduje pomocí všech tří zmíněných algoritmů a vypíše se statistika včetně podoby
+                slovníku (kromě algoritmu Run Length).<br/>
+                Výsledky umožňují přehledné porovnání rozdílů mezi zašifrovanou a nezašifrovanou zprávou a také mezi
+                jednotlivými algoritmy.
+            </div>
         </div>
     </div>
 
@@ -15,7 +22,7 @@
                 <input n:name="text" type="text" class="form-control" placeholder="Vložte textovou hodnotu...">
             </div>
 
-            <button n:name="submit" type="submit" class="btn btn-primary">Odeslat</button>
+            <button n:name="submit" type="submit" class="btn btn-success">Odeslat</button>
         </div>
      {/form}
     {/snippet}
@@ -108,7 +115,7 @@
                             <div class="col-md-12">
                                 <h5>Velikost komprimované zprávy</h5>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {$huffmanData->procent|number}%;" aria-valuenow="{$huffmanData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$huffmanData->procent|number} %</div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {$huffmanData->procent|number}%;" aria-valuenow="{$huffmanData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$huffmanData->procent|number} %</div>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +176,95 @@
                             <div class="col-md-12">
                                 <h5>Velikost komprimované zprávy</h5>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {$runLengthData->procent|number}%;" aria-valuenow="{$runLengthData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$runLengthData->procent|number} %</div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {$runLengthData->procent|number}%;" aria-valuenow="{$runLengthData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$runLengthData->procent|number} %</div>
+                                </div>
+                            </div>
+                        </div>
+                    {/ifset}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card bg-light mb-3">
+                <div class="card-header">LZW kódování</div>
+                <div class="card-body">
+                    {ifset $lzwData}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Komprimace</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table class="table table-dark">
+                                    <tbody>
+                                    <tr>
+                                        <td>Zpráva</td>
+                                        <td style="word-break: break-all;">{$lzwData->encode["text"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velikost</td>
+                                        <td>{$lzwData->encode["size"]|bytes}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Dekomprimace</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table class="table table-dark">
+                                    <tbody>
+                                    <tr>
+                                        <td>Zpráva</td>
+                                        <td style="word-break: break-all;">{$lzwData->decode["text"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Velikost</td>
+                                        <td>{$lzwData->decode["size"]|bytes}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Slovník</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-dark table-striped">
+                                    <tbody>
+                                    {foreach $lzwData->translationTable as $key => $value}
+                                    <tr>
+                                        <td>{$key}</td>
+                                        <td>{$value}</td>
+                                    </tr>
+
+                                    {if $iterator->counter == round(count($lzwData->translationTable)/2)}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+                                <table class="table table-dark table-striped">
+                                    <tbody>
+                                    {/if}
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Velikost komprimované zprávy</h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {$lzwData->procent|number}%;" aria-valuenow="{$lzwData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$lzwData->procent|number} %</div>
                                 </div>
                             </div>
                         </div>

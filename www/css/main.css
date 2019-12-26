@@ -10,3 +10,9 @@ html, body, body>.container {
 .no-show {
     display: none;
 }
+
+.title > div {
+    text-align: left;
+    margin-top: 35px;
+    margin-bottom: 20px;
+}

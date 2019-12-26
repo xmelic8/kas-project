@@ -30,6 +30,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
             $this->template->showBody = true;
             $this->template->huffmanData = $this->inputTextForm->getFinalAnalysisHuffman();
             $this->template->runLengthData = $this->inputTextForm->getFinalAnalysisRunLength();
+            $this->template->lzwData = $this->inputTextForm->getFinalAnalysisLZW();
 
             $this->redrawControl();
         }else{

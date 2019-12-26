@@ -21,6 +21,11 @@ final class InputTextForm extends FormFactory
      */
     private $finalAnalysisRunLength;
 
+    /**
+     * @var
+     */
+    private $finalAnalysisLZW;
+
     public function create(): Form
     {
         parent::create();
@@ -45,8 +50,6 @@ final class InputTextForm extends FormFactory
         $final = $huffmanModel->getFinalMessage();
 
         $huffmanModel->decode($final);
-        $huffmanModel->getFinalMessage();
-
         $this->finalAnalysisHuffman = $huffmanModel->getAnalysisData();
 
         //Run Length kodovani
@@ -55,20 +58,15 @@ final class InputTextForm extends FormFactory
         $final = $runLength->getFinalMessage();
 
         $runLength->decode($final);
-        $runLength->getFinalMessage();
-
         $this->finalAnalysisRunLength = $runLength->getAnalysisData();
 
         //LZW kodovani
-        $str = 'TOBEORNOTTOBEORTOBEORNOT';
-        $lzw = new LZW($str);
+        $lzw = new LZW($values->text);
         $lzw->encode();
         $final = $lzw->getFinalMessage();
-        //$dec = $lzw->decompress($result);
 
-        //Debugger::barDump($result);
-        Debugger::barDump($final);
-        Debugger::barDump($lzw->getAnalysisData());
+        $lzw->decode($final);
+        $this->finalAnalysisLZW = $lzw->getAnalysisData();
     }
 
     /**
@@ -85,5 +83,13 @@ final class InputTextForm extends FormFactory
     public function getFinalAnalysisRunLength()
     {
         return $this->finalAnalysisRunLength;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFinalAnalysisLZW()
+    {
+        return $this->finalAnalysisLZW;
     }
 }

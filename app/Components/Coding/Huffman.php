@@ -218,7 +218,7 @@ final class Huffman
     }
 
     /**
-     * Funkce pro vytvoreni statistiky pro kodovaci funkci
+     * Funkce pro vytvoreni statistiky pro dekodovaci funkci
      */
     private function countAnalysisDataFromDecode() :void{
         $charsArray = str_split($this->finalMessage);
@@ -238,7 +238,7 @@ final class Huffman
     }
 
     /**
-     * Funkce pro vytvoreni statistiky pro dekodovaci funkci
+     * Funkce pro vytvoreni statistiky pro kodovaci funkci
      */
     private function countAnalysisDataFromEncode() :void{
         $this->analysisData->encode = [

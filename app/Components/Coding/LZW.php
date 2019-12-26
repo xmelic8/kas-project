@@ -9,6 +9,8 @@ final class LZW
 {
     const SIZE_TRANSLATE_TABLE = 256;
     const EMPTY_STRING = "";
+    const FIRST_CHAR = 0;
+
     /**
      * @var
      */
@@ -57,14 +59,22 @@ final class LZW
         return $this->analysisData;
     }
 
+    /**
+     * Hlavní řídící fumkce pro zakodování vstupního řetězce
+     */
     public function encode() :void{
         $this->createTranslationTable();
-        $this->processString();
+        $this->processEncode();
         $this->countAnalysisDataFromEncode();
     }
 
-    public function decode() :void{
-
+    /**
+     * @param string $string
+     */
+    public function decode(string $string) :void{
+        $this->originalString = $string;
+        $this->processDecode();
+        $this->countAnalysisDataFromDecode();
     }
 
     /**
@@ -79,7 +89,7 @@ final class LZW
     /**
      * Funkce provede zakodovani vstupnich dat
      */
-    private function processString() :void{
+    private function processEncode() :void{
         $sizeTranslationTable = self::SIZE_TRANSLATE_TABLE;
         $tmpResult = array();
         $newChar = self::EMPTY_STRING;
@@ -112,7 +122,36 @@ final class LZW
     }
 
     /**
-     * Funkce pro vytvoreni statistiky pro dekodovaci funkci
+     * Funkce pro dekodovani zakodovaneho textu.
+     * Funkce pocita s jiz vytvorenou prekladovou tabulkou.
+     */
+    private function processDecode() :void{
+        $inputArray = explode(",", $this->originalString);
+        $sizeTranslationTable = self::SIZE_TRANSLATE_TABLE;
+
+        $newChar = $this->translationTable[reset($inputArray)];
+        $message = $newChar;
+
+        for ($i = 1; $i < count($inputArray); $i++) {
+            $char = $inputArray[$i];
+            if ($this->translationTable[$char]) {
+                $tmpChar = $this->translationTable[$char];
+            }elseif(intval($char) === $sizeTranslationTable) {
+                $tmpChar = $newChar . $newChar[self::FIRST_CHAR];
+            }else{
+                return;
+            }
+
+            $this->translationTable[$sizeTranslationTable++] = $newChar . $tmpChar[self::FIRST_CHAR];
+            $message = $message . $tmpChar;
+            $newChar = $tmpChar;
+        }
+
+        $this->finalMessage = $message;
+    }
+
+    /**
+     * Funkce pro vytvoreni statistiky pro kodovaci funkci
      */
     private function countAnalysisDataFromEncode() :void{
         $tmpArraySource = explode(",",$this->finalMessage);
@@ -127,62 +166,27 @@ final class LZW
             $tmpArray[$this->translationTable[$value]] = $value;
         }
 
-        ksort($tmpArray);
+        asort($tmpArray);
         $this->analysisData->translationTable = $tmpArray;
     }
 
-    /*function compress($unc) {
-        $i;$c;$wc;
-        $w = "";
-        $dictionary = array();
-        $result = array();
-        $dictSize = 256;
-        for ($i = 0; $i < 256; $i += 1) {
-            $dictionary[chr($i)] = $i;
-        }Debugger::barDump($dictionary);
-        for ($i = 0; $i < strlen($unc); $i++) {
-            $c = $unc[$i];
-            $wc = $w.$c;
-            if (array_key_exists($wc, $dictionary)) {
-                $w = $wc;
-            } else {
-                array_push($result,$dictionary[$w]);
-                $dictionary[$wc] = $dictSize++;
-                $w = (string)$c;
-            }
-        }Debugger::barDump($result, "RESI OLD");
-        if ($w !== "") {
-            array_push($result,$dictionary[$w]);
-        }
-        return implode(",",$result);
-    }*/
+    /**
+     * Funkce pro vytvoreni statistiky pro dekodovaci funkci
+     */
+    private function countAnalysisDataFromDecode() :void{
+        $charsArray = str_split($this->finalMessage);
 
-    function decompress($com) {
-        $com = explode(",",$com);
-        $i;$w;$k;$result;
-        $dictionary = array();
-        $entry = "";
-        $dictSize = 256;
-        for ($i = 0; $i < 256; $i++) {
-            $dictionary[$i] = chr($i);
+        $binary = "";
+        foreach ($charsArray as $character) {
+            $data = unpack('H*', $character);
+            $binary = $binary . base_convert($data[1], 16, 2);
         }
-        $w = chr($com[0]);
-        $result = $w;
-        for ($i = 1; $i < count($com);$i++) {
-            $k = $com[$i];
-            if ($dictionary[$k]) {
-                $entry = $dictionary[$k];
-            } else {
-                if ($k === $dictSize) {
-                    $entry = $w.$w[0];
-                } else {
-                    return null;
-                }
-            }
-            $result .= $entry;
-            $dictionary[$dictSize++] = $w . $entry[0];
-            $w = $entry;
-        }
-        return $result;
+
+        $this->analysisData->decode = [
+            "text" => $this->finalMessage,
+            "size" => strlen($binary)
+        ];
+
+        $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
     }
 }
