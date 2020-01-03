@@ -7,7 +7,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-final class RunLength
+final class RunLength extends BaseModel
 {
     const ENCODE_PATTERN = '/(.)\\1+/';
     const DECODE_PATTERN = '/(\d+)([^0-9])/';
@@ -36,7 +36,7 @@ final class RunLength
      */
     public function __construct($string)
     {
-        $this->originalString = $string;
+        $this->originalString = $this->removeDiacritics($string);
         $this->analysisData = ArrayHash::from(array());
     }
 

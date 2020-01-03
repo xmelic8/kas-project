@@ -5,7 +5,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-final class LZW
+final class LZW extends BaseModel
 {
     const SIZE_TRANSLATE_TABLE = 256;
     const EMPTY_STRING = "";
@@ -39,7 +39,7 @@ final class LZW
      */
     public function __construct($string)
     {
-        $this->originalString = $string;
+        $this->originalString = $this->removeDiacritics($string);
         $this->analysisData = ArrayHash::from(array());
     }
 

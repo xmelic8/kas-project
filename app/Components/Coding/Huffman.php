@@ -7,7 +7,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-final class Huffman
+final class Huffman extends BaseModel
 {
     const FIRST_ELEMENT = 0;
     const LEFT_ELEMENT = "count";
@@ -44,7 +44,7 @@ final class Huffman
      */
     public function __construct($string)
     {
-        $this->originalString = $string;
+        $this->originalString = $this->removeDiacritics($string);
         $this->analysisData = ArrayHash::from(array());
     }
 
@@ -100,9 +100,8 @@ final class Huffman
      */
     private function countOccurencesSymbol() :void{
         $tmpString = $this->originalString;
-
         while (strlen($tmpString)) {
-            $this->occurences[] = [
+        $this->occurences[] = [
                 self::LEFT_ELEMENT => substr_count($tmpString, $tmpString[self::FIRST_ELEMENT]),
                 self::RIGHT_ELEMENT => $tmpString[self::FIRST_ELEMENT]
             ];
