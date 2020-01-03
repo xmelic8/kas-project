@@ -18,11 +18,12 @@
 {snippet test}
     {form inputTextForm}
         <div class="form-group row">
-            <div class="col-sm-10">
-                <input n:name="text" type="text" class="form-control" placeholder="Vložte textovou hodnotu...">
+            <div class="col-sm-12">
+                <textarea n:name="text" type="text" class="form-control" placeholder="Vložte textovou hodnotu..."></textarea>
             </div>
-
-            <button n:name="submit" type="submit" class="btn btn-success">Odeslat</button>
+            <div class="col-sm-12 text-center" style="margin-top: 5px">
+                <button n:name="submit" type="submit" class="btn btn-success">Odeslat</button>
+            </div>
         </div>
      {/form}
     {/snippet}
@@ -117,6 +118,16 @@
                                 <div class="progress">
                                     <div class="progress-bar bg-success" role="progressbar" style="width: {$huffmanData->procent|number}%;" aria-valuenow="{$huffmanData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$huffmanData->procent|number} %</div>
                                 </div>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Kompresní poměr k</td>
+                                        <td>{$huffmanData->pomer|number:2}</td>
+                                        <td>Kompresní zisk z</td>
+                                        <td>{$huffmanData->zisk|number:2}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     {/ifset}
@@ -179,6 +190,16 @@
                                     <div class="progress-bar bg-success" role="progressbar" style="width: {$runLengthData->procent|number}%;" aria-valuenow="{$runLengthData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$runLengthData->procent|number} %</div>
                                 </div>
                             </div>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>Kompresní poměr k</td>
+                                    <td>{$runLengthData->pomer|number:2}</td>
+                                    <td>Kompresní zisk z</td>
+                                    <td>{$runLengthData->zisk|number:2}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     {/ifset}
                 </div>
@@ -187,7 +208,7 @@
 
         <div class="col-md-12">
             <div class="card bg-light mb-3">
-                <div class="card-header">LZW kódování</div>
+                <div class="card-header">Lempel–Ziv–Welch kódování</div>
                 <div class="card-body">
                     {ifset $lzwData}
                         <div class="row">
@@ -200,7 +221,7 @@
                                     <tbody>
                                     <tr>
                                         <td>Zpráva</td>
-                                        <td style="word-break: break-all;">{$lzwData->encode["text"]}</td>
+                                        <td style="word-break: break-all;">[{$lzwData->encode["text"]}]</td>
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
@@ -267,6 +288,16 @@
                                     <div class="progress-bar bg-success" role="progressbar" style="width: {$lzwData->procent|number}%;" aria-valuenow="{$lzwData->procent|number}" aria-valuemin="0" aria-valuemax="100">{$lzwData->procent|number} %</div>
                                 </div>
                             </div>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>Kompresní poměr k</td>
+                                    <td>{$lzwData->pomer|number:2}</td>
+                                    <td>Kompresní zisk z</td>
+                                    <td>{$lzwData->zisk|number:2}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     {/ifset}
                 </div>

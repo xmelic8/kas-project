@@ -158,9 +158,8 @@ final class LZW
 
         $this->analysisData->encode = [
             "text" => $this->finalMessage,
-            "size" => PHP_INT_SIZE * count($tmpArraySource)
+            "size" => (PHP_INT_SIZE * count($tmpArraySource))/8
         ];
-
         $tmpArray = array();
         foreach ($tmpArraySource as  $value){
             $tmpArray[$this->translationTable[$value]] = $value;
@@ -174,19 +173,13 @@ final class LZW
      * Funkce pro vytvoreni statistiky pro dekodovaci funkci
      */
     private function countAnalysisDataFromDecode() :void{
-        $charsArray = str_split($this->finalMessage);
-
-        $binary = "";
-        foreach ($charsArray as $character) {
-            $data = unpack('H*', $character);
-            $binary = $binary . base_convert($data[1], 16, 2);
-        }
-
         $this->analysisData->decode = [
             "text" => $this->finalMessage,
-            "size" => strlen($binary)
+            "size" => strlen($this->finalMessage)
         ];
 
         $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
+        $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
+        $this->analysisData->zisk = 1 - $this->analysisData->pomer;
     }
 }

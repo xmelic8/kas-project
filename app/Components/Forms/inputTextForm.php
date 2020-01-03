@@ -30,7 +30,7 @@ final class InputTextForm extends FormFactory
     {
         parent::create();
 
-        $this->form->addText("text")
+        $this->form->addTextArea("text")
             ->setRequired("Zadejte prosím textovou hodnotu");
 
         return $this->form;

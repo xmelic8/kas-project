@@ -100,25 +100,19 @@ final class RunLength
      * bool = 0 -> decode
      */
     private function countAnalysisData($bool) :void{
-        $charsArray = str_split($this->finalMessage);
-
-        $binary = "";
-        foreach ($charsArray as $character) {
-            $data = unpack('H*', $character);
-            $binary = $binary . base_convert($data[1], 16, 2);
-        }
-
         if($bool){
             $this->analysisData->encode = [
                 "text" => $this->finalMessage,
-                "size" => strlen($binary)
+                "size" => strlen($this->finalMessage)
             ];
         }else {
             $this->analysisData->decode = [
                 "text" => $this->finalMessage,
-                "size" => strlen($binary)
+                "size" => strlen($this->finalMessage)
             ];
             $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"]) * 100);
+            $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
+            $this->analysisData->zisk = 1 - $this->analysisData->pomer;
         }
     }
 }

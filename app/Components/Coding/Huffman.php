@@ -221,20 +221,14 @@ final class Huffman
      * Funkce pro vytvoreni statistiky pro dekodovaci funkci
      */
     private function countAnalysisDataFromDecode() :void{
-        $charsArray = str_split($this->finalMessage);
-
-        $binary = "";
-        foreach ($charsArray as $character) {
-            $data = unpack('H*', $character);
-            $binary = $binary . base_convert($data[1], 16, 2);
-        }
-
         $this->analysisData->decode = [
             "text" => $this->finalMessage,
-            "size" => strlen($binary)
+            "size" => strlen($this->finalMessage)
         ];
         $this->analysisData->translationTable = $this->translationTable;
         $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
+        $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
+        $this->analysisData->zisk = 1 - $this->analysisData->pomer;
     }
 
     /**
@@ -243,7 +237,7 @@ final class Huffman
     private function countAnalysisDataFromEncode() :void{
         $this->analysisData->encode = [
             "text" => $this->finalMessage,
-            "size" => strlen($this->finalMessage)
+            "size" => round(strlen($this->finalMessage)/8)
         ];
     }
 }
