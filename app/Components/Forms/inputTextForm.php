@@ -26,6 +26,11 @@ final class InputTextForm extends FormFactory
      */
     private $finalAnalysisLZW;
 
+    /**
+     * @var
+     */
+    private $lenghtInput;
+
     public function create(): Form
     {
         parent::create();
@@ -38,11 +43,16 @@ final class InputTextForm extends FormFactory
 
     public function formSubmitted(Form $form, \stdClass $values)
     {
-        Debugger::barDump($values);
+        //Debugger::barDump($values);
 
         if ($values->text == "") {
             return;
         }
+
+        $values->text = $this::removeDiacritics($values->text);
+        $values->text = $this::removeBadChar($values->text);
+
+        $this->lenghtInput = $this->countLegnhtInputText($values->text);
 
         //Huffmanovo kodovani
         $huffmanModel = new Huffman($values->text);
@@ -91,5 +101,21 @@ final class InputTextForm extends FormFactory
     public function getFinalAnalysisLZW()
     {
         return $this->finalAnalysisLZW;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLenghtInput()
+    {
+        return $this->lenghtInput;
+    }
+
+    /**
+     * @param string $string
+     * @return int
+     */
+    private function countLegnhtInputText(string $string) :int {
+        return strlen($string);
     }
 }

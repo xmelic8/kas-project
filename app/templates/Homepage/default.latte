@@ -38,6 +38,22 @@
 
         <div class="col-md-12">
             <div class="card bg-light mb-3">
+                <div class="card-header">Graf výsledků</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="chart-column"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="chart-column2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card bg-light mb-3">
                 <div class="card-header">Huffmanovo kódování</div>
                 <div class="card-body">
 
@@ -304,5 +320,10 @@
             </div>
         </div>
     </div>
+
+            {ifset $inputStatistic}
+                {import ../_include/_scripts_chart.latte}
+                {include scriptChart}
+            {/ifset}
         {/snippet}
 {/block}

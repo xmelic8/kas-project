@@ -5,7 +5,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-final class LZW extends BaseModel
+final class LZW
 {
     const SIZE_TRANSLATE_TABLE = 256;
     const EMPTY_STRING = "";
@@ -39,7 +39,7 @@ final class LZW extends BaseModel
      */
     public function __construct($string)
     {
-        $this->originalString = $this->removeDiacritics($string);
+        $this->originalString = $string;
         $this->analysisData = ArrayHash::from(array());
     }
 
@@ -63,8 +63,12 @@ final class LZW extends BaseModel
      * Hlavní řídící fumkce pro zakodování vstupního řetězce
      */
     public function encode() :void{
+        $timeStart = hrtime(true);
         $this->createTranslationTable();
         $this->processEncode();
+        $timeEnd = hrtime(true);
+
+        $this->analysisData->timeEncode = ($timeEnd- $timeStart)/1000000;
         $this->countAnalysisDataFromEncode();
     }
 
@@ -72,8 +76,12 @@ final class LZW extends BaseModel
      * @param string $string
      */
     public function decode(string $string) :void{
+        $timeStart = hrtime(true);
         $this->originalString = $string;
         $this->processDecode();
+        $timeEnd = hrtime(true);
+
+        $this->analysisData->timeDecode = ($timeEnd- $timeStart)/1000000;
         $this->countAnalysisDataFromDecode();
     }
 
@@ -93,7 +101,6 @@ final class LZW extends BaseModel
         $sizeTranslationTable = self::SIZE_TRANSLATE_TABLE;
         $tmpResult = array();
         $newChar = self::EMPTY_STRING;
-
         for($i = 0; $i < strlen($this->originalString); $i++){
             $char = $this->originalString[$i];
 
@@ -160,8 +167,8 @@ final class LZW extends BaseModel
             "text" => $this->finalMessage,
             "size" => (PHP_INT_SIZE * count($tmpArraySource))/8
         ];
-        $tmpArray = array();
-        foreach ($tmpArraySource as  $value){
+        $tmpArray = array();Debugger::log($tmpArraySource, "2");
+        foreach ($tmpArraySource as $value){
             $tmpArray[$this->translationTable[$value]] = $value;
         }
 

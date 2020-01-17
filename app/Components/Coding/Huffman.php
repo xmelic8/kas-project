@@ -7,7 +7,7 @@ namespace App\Components\Coding;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 
-final class Huffman extends BaseModel
+final class Huffman
 {
     const FIRST_ELEMENT = 0;
     const LEFT_ELEMENT = "count";
@@ -44,7 +44,7 @@ final class Huffman extends BaseModel
      */
     public function __construct($string)
     {
-        $this->originalString = $this->removeDiacritics($string);
+        $this->originalString = $string;
         $this->analysisData = ArrayHash::from(array());
     }
 
@@ -76,11 +76,14 @@ final class Huffman extends BaseModel
      * Obsluzna funkce pro zakodovani zpravy
      */
     public function encode() :void{
+        $timeStart = hrtime(true);
         $this->countOccurencesSymbol();
         $this->modifyArraySequence();
         $this->generateTranslationTable();
         $this->buildFinalMessage();
+        $timeEnd = hrtime(true);
 
+        $this->analysisData->timeEncode = ($timeEnd- $timeStart)/1000000;
         $this->countAnalysisDataFromEncode();
     }
 
@@ -88,9 +91,12 @@ final class Huffman extends BaseModel
      * @param $message
      */
     public function decode($message){
+        $timeStart = hrtime(true);
         $this->originalString = $message;
         $this->buildDecodeFinalMessages();
+        $timeEnd = hrtime(true);
 
+        $this->analysisData->timeDecode = ($timeEnd- $timeStart)/1000000;;
         $this->countAnalysisDataFromDecode();
     }
 
