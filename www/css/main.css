@@ -16,3 +16,9 @@ html, body, body>.container {
     margin-top: 35px;
     margin-bottom: 20px;
 }
+
+.icon {
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+}

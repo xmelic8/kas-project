@@ -1,0 +1,70 @@
+{block scriptChart}
+    <script>
+        google.charts.load('current', {'packages':['bar', 'corechart']});
+        google.charts.setOnLoadCallback(drawColumnChart);
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        function drawColumnChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['', 'Velikost [B]'],
+                [ "Vstupní text", {$inputStatistic}],
+                [ "Huffman", {$huffmanData->encode["size"]}],
+                [ "RLE", {$runLengthData->encode["size"]}],
+                [ "LZW", {$lzwData->encode["size"]}],
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Porovnání velikosti výstupu algoritmů',
+                },
+                chartArea: {
+                    backgroundColor: {
+                        fill: '#f8f9fa',
+                        fillOpacity: 0.1
+                    },
+                },
+                backgroundColor: {
+                    fill: '#f8f9fa',
+                    fillOpacity: 0.8
+                },
+            };
+
+            var chartColumn = new google.charts.Bar(document.getElementById('chart-column'));
+            chartColumn.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+        function drawPieChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['', 'Kódování [ms]', 'Dekodování [ms]'],
+                [ "Huffmanovo kódování", {$huffmanData->timeEncode}, {$huffmanData->timeDecode}],
+                [ "RLE", {$runLengthData->timeEncode}, {$runLengthData->timeDecode}],
+                [ "LZW", {$lzwData->timeEncode}, {$lzwData->timeDecode}],
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Porovnání doby běhu algoritmů',
+                },
+                chartArea: {
+                    backgroundColor: {
+                        fill: '#f8f9fa',
+                        fillOpacity: 0.1
+                    },
+                },
+                backgroundColor: {
+                    fill: '#f8f9fa',
+                    fillOpacity: 0.8
+                },
+            };
+
+            var chartColumn2 = new google.charts.Bar(document.getElementById('chart-column2'));
+            chartColumn2.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{/block}

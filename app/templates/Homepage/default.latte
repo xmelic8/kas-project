@@ -72,7 +72,9 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$huffmanData->encode["size"]|bytes}</td>
+                                        <td>{$huffmanData->encode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak ze zakódované zprávy je chápán jako jeden bit.">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -93,7 +95,10 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$huffmanData->decode["size"]|bytes}</td>
+                                        <td>
+                                            {$huffmanData->decode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak z dekódované zprávy je chápán jako jeden znak řetězce (uložen na 8 bytech).">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -171,7 +176,10 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$runLengthData->encode["size"]|bytes}</td>
+                                        <td>
+                                            {$runLengthData->encode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak ze zakódované zprávy je chápán jako jeden bit.">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -192,7 +200,10 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$runLengthData->decode["size"]|bytes}</td>
+                                        <td>
+                                            {$runLengthData->decode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak z dekódované zprávy je chápán jako jeden znak řetězce (uložen na 8 bytech).">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -241,7 +252,10 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$lzwData->encode["size"]|bytes}</td>
+                                        <td>
+                                            {$lzwData->encode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak ze zakódované zprávy je chápán jako číslo typu int velikosti definovaném konstantou PHP_INT_SIZE.">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -262,7 +276,10 @@
                                     </tr>
                                     <tr>
                                         <td>Velikost</td>
-                                        <td>{$lzwData->decode["size"]|bytes}</td>
+                                        <td>
+                                            {$lzwData->decode["size"]|bytes}
+                                            <img src="{$basePath}/images/info-icon.png" class="icon" data-toggle="tooltip" data-placement="right" title="Každý znak z dekódované zprávy je chápán jako jeden znak řetězce (uložen na 8 bytech).">
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
