@@ -78,6 +78,8 @@ final class LZW
     public function decode(string $string) :void{
         $timeStart = hrtime(true);
         $this->originalString = $string;
+        $this->translationTable = array();
+        $this->createTranslationTable();
         $this->processDecode();
         $timeEnd = hrtime(true);
 
@@ -167,7 +169,7 @@ final class LZW
             "text" => $this->finalMessage,
             "size" => (PHP_INT_SIZE * count($tmpArraySource))/8
         ];
-        $tmpArray = array();Debugger::log($tmpArraySource, "2");
+        $tmpArray = array();
         foreach ($tmpArraySource as $value){
             $tmpArray[$this->translationTable[$value]] = $value;
         }
