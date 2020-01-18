@@ -78,9 +78,9 @@ final class LZW
     public function decode(string $string) :void{
         $timeStart = hrtime(true);
         $this->originalString = $string;
+        $this->processDecode();
         $this->translationTable = array();
         $this->createTranslationTable();
-        $this->processDecode();
         $timeEnd = hrtime(true);
 
         $this->analysisData->timeDecode = ($timeEnd- $timeStart)/1000000;
