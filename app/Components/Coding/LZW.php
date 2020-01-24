@@ -40,7 +40,7 @@ final class LZW
     public function __construct($string)
     {
         $this->originalString = $string;
-        $this->analysisData = ArrayHash::from(array());
+        $this->analysisData = ArrayHash::from([]);
     }
 
     /**
@@ -79,7 +79,7 @@ final class LZW
         $timeStart = hrtime(true);
         $this->originalString = $string;
         $this->processDecode();
-        $this->translationTable = array();
+        $this->translationTable = [];
         $this->createTranslationTable();
         $timeEnd = hrtime(true);
 
@@ -101,7 +101,7 @@ final class LZW
      */
     private function processEncode() :void{
         $sizeTranslationTable = self::SIZE_TRANSLATE_TABLE;
-        $tmpResult = array();
+        $tmpResult = [];
         $newChar = self::EMPTY_STRING;
         for($i = 0; $i < strlen($this->originalString); $i++){
             $char = $this->originalString[$i];
@@ -169,7 +169,7 @@ final class LZW
             "text" => $this->finalMessage,
             "size" => (PHP_INT_SIZE * count($tmpArraySource))/8
         ];
-        $tmpArray = array();
+        $tmpArray = [];
         foreach ($tmpArraySource as $value){
             $tmpArray[$this->translationTable[$value]] = $value;
         }
@@ -187,7 +187,7 @@ final class LZW
             "size" => strlen($this->finalMessage)
         ];
 
-        $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
+        $this->analysisData->procent = ceil(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
         $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
         $this->analysisData->zisk = 1 - $this->analysisData->pomer;
     }

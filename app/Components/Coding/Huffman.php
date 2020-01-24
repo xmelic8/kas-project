@@ -21,12 +21,12 @@ final class Huffman
     /**
      * @var array
      */
-    private $occurences = array();
+    private $occurences = [];
 
     /**
      * @var array
      */
-    private $translationTable = array();
+    private $translationTable = [];
 
     /**
      * @var string
@@ -45,7 +45,7 @@ final class Huffman
     public function __construct($string)
     {
         $this->originalString = $string;
-        $this->analysisData = ArrayHash::from(array());
+        $this->analysisData = ArrayHash::from([]);
     }
 
     /**
@@ -231,7 +231,7 @@ final class Huffman
             "size" => strlen($this->finalMessage)
         ];
         $this->analysisData->translationTable = $this->translationTable;
-        $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
+        $this->analysisData->procent = ceil(($this->analysisData->encode["size"] / $this->analysisData->decode["size"])*100);
         $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
         $this->analysisData->zisk = 1 - $this->analysisData->pomer;
     }
@@ -242,7 +242,7 @@ final class Huffman
     private function countAnalysisDataFromEncode() :void{
         $this->analysisData->encode = [
             "text" => $this->finalMessage,
-            "size" => round(strlen($this->finalMessage)/8)
+            "size" => ceil(strlen($this->finalMessage)/8)
         ];
     }
 }

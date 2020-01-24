@@ -37,7 +37,7 @@ final class RunLength
     public function __construct($string)
     {
         $this->originalString = $string;
-        $this->analysisData = ArrayHash::from(array());
+        $this->analysisData = ArrayHash::from([]);
     }
 
     /**
@@ -118,7 +118,7 @@ final class RunLength
                 "text" => $this->finalMessage,
                 "size" => strlen($this->finalMessage)
             ];
-            $this->analysisData->procent = round(($this->analysisData->encode["size"] / $this->analysisData->decode["size"]) * 100);
+            $this->analysisData->procent = ceil(($this->analysisData->encode["size"] / $this->analysisData->decode["size"]) * 100);
             $this->analysisData->pomer = ($this->analysisData->encode["size"] / $this->analysisData->decode["size"]);
             $this->analysisData->zisk = 1 - $this->analysisData->pomer;
         }
